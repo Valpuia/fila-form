@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CustomerResource\Pages;
-use App\Filament\Resources\CustomerResource\RelationManagers;
 use App\Models\Customer;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -23,22 +22,73 @@ class CustomerResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('photo')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('gender')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('phone')
-                    ->tel()
-                    ->maxLength(255),
-                Forms\Components\DatePicker::make('birthday'),
+                // Forms\Components\Tabs::make('Heading')
+                //     ->tabs([
+                //         Forms\Components\Tabs\Tab::make('Label 1')
+                //             ->schema([
+                //                 Forms\Components\TextInput::make('name')
+                //                     ->required()
+                //                     ->maxLength(255),
+                //                 Forms\Components\TextInput::make('email')
+                //                     ->email()
+                //                     ->required()
+                //                     ->maxLength(255),
+                //             ]),
+                //         Forms\Components\Tabs\Tab::make('Label 2')
+                //             ->schema([
+                //                 Forms\Components\TextInput::make('photo')
+                //                     ->required()
+                //                     ->maxLength(255),
+                //                 Forms\Components\TextInput::make('gender')
+                //                     ->required()
+                //                     ->maxLength(255),
+                //             ]),
+                //         Forms\Components\Tabs\Tab::make('Label 3')
+                //             ->schema([
+                //                 Forms\Components\TextInput::make('phone')
+                //                     ->required()
+                //                     ->tel()
+                //                     ->maxLength(255),
+                //                 Forms\Components\DatePicker::make('birthday')
+                //                     ->required(),
+                //             ]),
+                //     ])
+                //     ->columnSpanFull(),
+
+                // Forms\Components\Wizard::make([
+                //     Forms\Components\Wizard\Step::make('Order')
+                //         ->schema([
+                //             // ...
+                //         ]),
+                //     Forms\Components\Wizard\Step::make('Delivery')
+                //         ->schema([
+                //             // ...
+                //         ]),
+                //     Forms\Components\Wizard\Step::make('Billing')
+                //         ->schema([
+                //             // ...
+                //         ]),
+                // ]),
+
+                Forms\Components\Section::make('Heading')
+                    ->description('Description')
+                    ->aside()
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('email')
+                            ->email()
+                            ->required()
+                            ->maxLength(255),
+                    ])
+                    // ->collapsible()
+                    ->compact()
+                    ->collapsed()
+                    ->columns(2),
+
+                Forms\Components\Placeholder::make('Label')
+                    ->content('Content, displayed underneath the label'),
             ]);
     }
 
@@ -72,14 +122,14 @@ class CustomerResource extends Resource
                 Tables\Actions\RestoreBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -87,8 +137,8 @@ class CustomerResource extends Resource
             'create' => Pages\CreateCustomer::route('/create'),
             'edit' => Pages\EditCustomer::route('/{record}/edit'),
         ];
-    }    
-    
+    }
+
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
